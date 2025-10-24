@@ -5,19 +5,18 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class Contact extends Mailable
+class MyTestEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(private $name)
     {
         //
     }
@@ -27,16 +26,8 @@ class Contact extends Mailable
      */
     public function envelope(): Envelope
     {
-        // return new Envelope(
-        //     from: new Address('magno.dev.projetos@gmail.com', 'Magno Luis'),
-        //     replyTo: [
-        //         new Address('magno.luis42@hotmail.com', 'Magno Luis')
-        //     ],
-        //     subject: 'Mensagem de teste'
-        // );
-
         return new Envelope(
-            subject: 'teste de email'
+            subject: 'My Test Email',
         );
     }
 
@@ -46,7 +37,8 @@ class Contact extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'views.mail.send'
+            view: 'teste',
+            with: ['name' => $this->name]
         );
     }
 
